@@ -1,38 +1,36 @@
-class Stack<T> {
-  private items: T[] = [];
+class Stack {
+  constructor() {
+    this.items = [];
+  }
 
-  push(item: T): void {
+  push(item) {
     this.items.push(item);
   }
 
-  pop(): T | undefined {
+  pop() {
     return this.items.pop();
   }
 
-  peek(): T | undefined {
+  peek() {
     return this.items[this.items.length - 1];
   }
 
-  isEmpty(): boolean {
+  isEmpty() {
     return this.items.length === 0;
   }
 }
 
-type Token =
-  | { kind: "num"; value: number }
-  | { kind: "op"; value: "+" | "*" };
-
-function sanitize(input: string): string {
+function sanitize(input) {
   return input
     .replace(/[^\d.+* ]/g, "")
     .replace(/\s+/g, " ")
     .trim();
 }
 
-function tokenize(expr: string): Token[] {
-  const tokens: Token[] = [];
+function tokenize(expr) {
+  const tokens = [];
   const re = /\d+(\.\d+)?|[+*]/g;
-  let match: RegExpExecArray | null;
+  let match;
 
   while ((match = re.exec(expr)) !== null) {
     const s = match[0];
@@ -46,7 +44,7 @@ function tokenize(expr: string): Token[] {
   return tokens;
 }
 
-function validate(tokens: Token[]): void {
+function validate(tokens) {
   if (tokens.length === 0) {
     throw new Error("Выражение пустое");
   }
@@ -68,22 +66,22 @@ function validate(tokens: Token[]): void {
   }
 }
 
-function evaluate(expr: string): { result: number; steps: string[] } {
+function evaluate(expr) {
   const tokens = tokenize(expr);
   validate(tokens);
 
-  const numbers = new Stack<number>();
-  const operators = new Stack<string>();
-  const steps: string[] = [];
+  const numbers = new Stack();
+  const operators = new Stack();
+  const steps = [];
 
-  function priority(op: string): number {
+  function priority(op) {
     return op === "*" ? 2 : 1;
   }
 
-  function applyOperator(): void {
-    const b = numbers.pop()!;
-    const a = numbers.pop()!;
-    const op = operators.pop()!;
+  function applyOperator() {
+    const b = numbers.pop();
+    const a = numbers.pop();
+    const op = operators.pop();
     const result = op === "*" ? a * b : a + b;
     steps.push(`${a} ${op} ${b} = ${result}`);
     numbers.push(result);
@@ -93,7 +91,7 @@ function evaluate(expr: string): { result: number; steps: string[] } {
     if (token.kind === "num") {
       numbers.push(token.value);
     } else {
-      while (!operators.isEmpty() && priority(operators.peek()!) >= priority(token.value)) {
+      while (!operators.isEmpty() && priority(operators.peek()) >= priority(token.value)) {
         applyOperator();
       }
       operators.push(token.value);
@@ -104,8 +102,7 @@ function evaluate(expr: string): { result: number; steps: string[] } {
     applyOperator();
   }
 
-  return { result: numbers.pop()!, steps };
+  return { result: numbers.pop(), steps };
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-(window as any).Calculator = { sanitize, evaluate };
+window.Calculator = { sanitize, evaluate };
