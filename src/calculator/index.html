@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Калькулятор Тян А.Д. 241-3210</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="card">
+  <div class="card-header">
+    <h1>Калькулятор</h1>
+    <p>Поддерживает + и * с учётом приоритета операторов</p>
+  </div>
+  <div class="card-body">
+    <label for="exprInput">Введите выражение</label>
+    <input type="text" id="exprInput" placeholder="например: 2 + 3 * 4" value="2 + 3 * 4">
+    <p class="hint">Допустимые символы: цифры, точка, +, *</p>
+    <button id="calcBtn">Вычислить</button>
+    <div id="output"></div>
+  </div>
+  <div ></div>
+</div>
+
+<script type="module" src="../../dist/calculator/index.js"></script>
+
+</body>
+</html>
