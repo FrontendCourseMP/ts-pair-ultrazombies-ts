@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Калькулятор Тян А.Д.241-3210</title>
+  <title>Калькулятор выражений</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
@@ -126,7 +126,7 @@
   }
 
   btn.addEventListener("click", calculate);
-  input.addEventListener("keydown", (e) => { if (e.key === "Enter") calculate(); });
+  input.addEventListener("input", calculate);
   calculate();
 </script>
 
